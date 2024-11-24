@@ -69,6 +69,9 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
+                      cd /harness
+                      npm init @eslint/config
+                      npm install eslint --save-dev
                       npm run lint
                       npm test
                       npm audit --audit-level=moderate || true
