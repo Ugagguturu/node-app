@@ -71,7 +71,7 @@ pipeline:
                     shell: Sh
                     command: |-
                       cd /harness
-                      npm init @eslint/config
+                      npm init @eslint/create-config
                       npm install eslint --save-dev
                       npm run lint
                       npm test
