@@ -44,7 +44,9 @@ pipeline:
                   identifier: Install_node_module
                   spec:
                     shell: Sh
-                    command: npm install
+                    command: |-
+                      cd /harness
+                      npm install
               - step:
                   type: Owasp
                   name: Owasp_scan
