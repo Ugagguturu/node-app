@@ -44,9 +44,7 @@ pipeline:
                   identifier: Install_node_module
                   spec:
                     shell: Sh
-                    command: |-
-                      npm init -y
-                      npm install
+                    command: npm install
               - step:
                   type: Owasp
                   name: Owasp_scan
