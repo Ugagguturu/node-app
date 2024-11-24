@@ -1,0 +1,71 @@
+pipeline:
+  name: nodejs-ci-uk
+  identifier: nodejsciuk
+  projectIdentifier: ORCA_onedev
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: nodejsuk
+        build: <+input>
+  stages:
+    - stage:
+        name: Scan and Build
+        identifier: Scan_and_Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Setup server
+                  identifier: Setup_server
+                  spec:
+                    shell: Sh
+                    command: |-
+                      sudo apt update -y
+                      sudo apt install -y curl
+                      curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+                      sudo apt install -y nodejs
+                      node -v
+                      npm -v
+              - step:
+                  type: Run
+                  name: Install node module
+                  identifier: Install_node_module
+                  spec:
+                    shell: Sh
+                    command: npm install
+              - step:
+                  type: Owasp
+                  name: Owasp_scan
+                  identifier: Owasp_scan
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: repository
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+              - step:
+                  type: Run
+                  name: Test and Build
+                  identifier: Test_and_Build
+                  spec:
+                    shell: Sh
+                    command: |-
+                      npm run lint
+                      npm test
+                      npm audit --audit-level=moderate || true
+                      npx eslint ./src --ext .js --quiet || true
