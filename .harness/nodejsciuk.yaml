@@ -45,7 +45,9 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      npm init -y
+                      echo "started"
+                      cd /harness
+                      ls
                       npm install
               - step:
                   type: Owasp
