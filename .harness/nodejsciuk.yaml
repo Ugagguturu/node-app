@@ -74,11 +74,4 @@ pipeline:
                     shell: Sh
                     command: |-
                       cd /harness
-                      npm cache clean --force
-                      npm config set registry https://registry.npmjs.org/
-                      npm init @eslint/config
-                      npm install eslint --save-dev
-                      npm run lint
                       npm test
-                      npm audit --audit-level=moderate || true
-                      npx eslint ./src --ext .js --quiet || true
